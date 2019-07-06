@@ -1,8 +1,26 @@
-*.iml
-.classpath
-.project
-.settings/
-.idea/
-bin/
-build/
-.gradle/
+apply plugin: 'java'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("com.squareup:javapoet:1.11.1"); // Will be replaced by a fluent later
+
+    testCompile(
+            "org.junit.jupiter:junit-jupiter-api:5.4.2",
+            "org.junit.jupiter:junit-jupiter-params:5.1.0");
+
+    testRuntime("org.junit.platform:junit-platform-launcher:1.4.2")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.4.2")
+}
+
+compileJava   {
+    sourceCompatibility = 11
+    targetCompatibility = 11
+}
+
+test {
+    useJUnitPlatform()
+}
