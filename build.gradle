@@ -28,5 +28,7 @@ test {
         testLogging {
             exceptionFormat = 'full'
             events "passed", "skipped", "failed"
+            outputs.upToDateWhen {false}
+            showStandardStreams = true
         }
     }
