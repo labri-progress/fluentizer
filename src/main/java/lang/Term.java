@@ -1,8 +1,8 @@
 package lang;
 
 public abstract class Term {
-    final String name;
-    final String type;
+    public final String name;
+    public final String type;
 
     public Term(String type) {
         this(type.toLowerCase(), type);
@@ -13,7 +13,7 @@ public abstract class Term {
         this.type = type;
     }
 
-    abstract String toJavaType();
+    public abstract String toJavaType();
 
     boolean isEOI() {
         return accept(new RuleVisitor<>() {
@@ -86,7 +86,7 @@ public abstract class Term {
         }
 
         @Override
-        String toJavaType() {
+        public String toJavaType() {
             return type;
         }
     }
@@ -105,7 +105,7 @@ public abstract class Term {
         }
 
         @Override
-        String toJavaType() {
+        public String toJavaType() {
             return type + ".Context<? extends " + type + ">";
         }
     }
@@ -120,7 +120,7 @@ public abstract class Term {
         }
 
         @Override
-        String toJavaType() {
+        public String toJavaType() {
             return null;
         }
     }

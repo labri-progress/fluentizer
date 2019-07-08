@@ -1,19 +1,20 @@
 apply plugin: 'java'
 
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile("com.squareup:javapoet:1.11.1"); // Will be replaced by a fluent later
+    compile("com.squareup:javapoet:1.11.1")
 
-    testCompile(
+    testImplementation(
             "org.junit.jupiter:junit-jupiter-api:5.4.2",
-            "org.junit.jupiter:junit-jupiter-params:5.1.0");
+            "org.junit.jupiter:junit-jupiter-params:5.4.2")
 
-    testRuntime("org.junit.platform:junit-platform-launcher:1.4.2")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.4.2")
+    testRuntime(
+            "org.junit.platform:junit-platform-launcher:5.4.2",
+            'org.junit.vintage:junit-vintage-engine:5.4.2',
+            "org.junit.jupiter:junit-jupiter-engine:5.4.2")
 }
 
 compileJava   {
