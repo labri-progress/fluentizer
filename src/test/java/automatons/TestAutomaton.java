@@ -18,6 +18,5 @@ public class TestAutomaton {
         );
         ContextBuilder.compile(ClassName.get("automatons", "Example"), ab);
     }
-
 }
 

@@ -113,33 +113,35 @@ public class ContextBuilder {
                 .addSuperinterfaces(interfaces.stream()
                         .map(i -> ClassName.get(grammarName.packageName(), grammarName.simpleName(), i.name))
                         .collect(Collectors.toList()));
+
         for (var expr : exprs)
             if (expr.status.isRepetition())
                 ctx.addField(
-                        FieldSpec.builder(ParameterizedTypeName.get(COLLECTION, ClassName.get("", expr.term.type)),
-                                expr.term.name,
-                                Modifier.PUBLIC)
+                        FieldSpec.builder(
+                                ParameterizedTypeName.get(COLLECTION, ClassName.get("", expr.term.type)),
+                                expr.term.name, Modifier.PUBLIC)
                             .initializer("new $T<>()", COLLECTION)
                             .build());
             else
                 ctx.addField(
                         FieldSpec.builder(
-                                ClassName.get("", expr.term.type),
-                                expr.term.name,
-                                Modifier.PRIVATE).build());
-        ParameterizedTypeName function = ParameterizedTypeName.get(
-                FUNCTION, contextName, grammarName);
+                                    ClassName.get("", expr.term.type), expr.term.name, Modifier.PRIVATE)
+                                .build());
+
+        ParameterizedTypeName function = ParameterizedTypeName.get(FUNCTION, contextName, grammarName);
         ctx.addField(function, "builder", Modifier.PRIVATE);
         ctx.addMethod(MethodSpec.constructorBuilder()
                 .addParameter(function, "builder")
                 .addStatement("this.builder = builder")
                 .build());
+
         ctx.addMethod(MethodSpec.methodBuilder("$")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .returns(grammarName)
                 .addStatement("return builder.apply(this)")
                 .build());
+
         for (var expr : exprs)
             ctx.addMethod(MethodSpec.methodBuilder(expr.term.name)
                     .addAnnotation(Override.class)
@@ -153,14 +155,5 @@ public class ContextBuilder {
                     .addStatement("return this")
                     .build());
         return ctx.build();
-    }
-
-    private Collection<TypeSpec> makeInterfaces(String baseName) {
-        Collection<TypeSpec> interfaces = new ArrayList<>();
-        for (Recognizer.State state : recognizer.states) {
-            TypeSpec.interfaceBuilder(baseName + "$" + stateNames.get(state))
-                    .build();
-        }
-        return interfaces;
     }
 }
